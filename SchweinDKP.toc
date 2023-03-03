@@ -1,0 +1,17 @@
+## Interface: 100005
+## Title: SchweinDKP
+## Notes: A dkp addon.
+## Version: 0.1
+## SavedVariables: SchweinDKPDB, SchweinDKPIconDB
+
+# Libraries
+Libs/libs.xml
+
+# Initialization
+Init.lua
+
+Util\util.xml
+Locale\locale.xml
+Core\core.xml
+
+GUI\gui.xml
