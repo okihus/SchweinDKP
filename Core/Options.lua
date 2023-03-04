@@ -19,6 +19,9 @@ local Self = Addon.Options
 Self.DEFAULTS = {
     profile = {
         enabled = true
+    },
+    messages = {
+        echo = Addon.ECHO_INFO
     }
 }
 
@@ -33,6 +36,10 @@ function Self.Register()
 
     C:RegisterOptionsTable(Name, Self.RegisterGeneral)
     Self.frames.General = CD:AddToBlizOptions(Name)
+
+    -- Messages
+    C:RegisterOptionsTable(Name .. " Messages", Self.RegisterMessages)
+    Self.frames.Messages = CD:AddToBlizOptions(Name .. " Messages", L["OPT_MESSAGES"], Name)
 
     C:RegisterOptionsTable(Name .. " Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(Addon.db))
     Self.frames.Profiles = CD:AddToBlizOptions(Name .. " Profiles", "Profiles", Name)
@@ -52,11 +59,40 @@ function Self.RegisterGeneral()
                 order = it(),
                 set = function (_, val)
                     Addon.db.profile.enabled = val
-                    -- Addon:Info(L[val and "ENABLED" or "DISABLED"])
+                    Addon:Info(L[val and "ENABLED" or "DISABLED"])
                     Addon[val and "Enable" or "Disable"](Addon)
                 end,
                 get = function (_) return Addon.db.profile.enabled end,
                 width = Self.WIDTH_HALF
+            }
+        }
+    }
+
+    return options
+end
+
+function Self.RegisterMessages()
+    local it = Self.it
+
+    local options = {
+        name = L["OPT_MESSAGES"],
+        type = "group",
+        childGroups = "tab",
+        args = {
+            echo = {
+                name = L["OPT_ECHO"],
+                desc = L["OPT_ECHO_DESC"],
+                type = "select",
+                order = it(),
+                values = {
+                    [Addon.ECHO_NONE] = L["OPT_ECHO_NONE"],
+                    [Addon.ECHO_ERROR] = L["OPT_ECHO_ERROR"],
+                    [Addon.ECHO_INFO] = L["OPT_ECHO_INFO"],
+                    [Addon.ECHO_VERBOSE] = L["OPT_ECHO_VERBOSE"],
+                    [Addon.ECHO_DEBUG] = L["OPT_ECHO_DEBUG"]
+                },
+                set = function (info, val) Addon.db.profile.messages.echo = val end,
+                get = function () return Addon.db.profile.echo end
             }
         }
     }

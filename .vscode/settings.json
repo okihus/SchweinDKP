@@ -51,7 +51,8 @@
         "MAX_TALENT_TABS",
         "SettingsPanel",
         "AnimateTexCoords",
-        "CLASS_ICON_TCOORDS"
+        "CLASS_ICON_TCOORDS",
+        "message"
     ],
     "Lua.runtime.version": "Lua 5.1"
 }
