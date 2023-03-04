@@ -1,0 +1,6 @@
+package-as: SchweinDKP
+manual-changelog:
+  filename: CHANGES.md
+  markup-type: markdown
+license-output: LICENSE
+enable-nolib-creation: no

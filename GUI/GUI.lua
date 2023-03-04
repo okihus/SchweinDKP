@@ -24,6 +24,13 @@ tex:SetTexture("Interface\\Buttons\\UI-Listbox-Highlight")
 tex:SetVertexColor(1, 1, 1, .5)
 tex:SetAllPoints(Self.HIGHLIGHT)
 
+---@return FrameWidget
+function Self.ShowExportWindow(title, text)
+    local f = Self("Frame").SetLayout("Fill").SetTitle(Name .. " - " .. title).Show()()
+    Self("MultiLineEditBox").DisableButton(true).SetLabel().SetText(text).AddTo(f)
+    return f
+end
+
 -------------------------------------------------------
 --               AceGUI table layout                 --
 -------------------------------------------------------

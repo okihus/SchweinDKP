@@ -1,7 +1,7 @@
 ## Interface: 100005
 ## Title: SchweinDKP
 ## Notes: A dkp addon.
-## Version: 0.1
+## Version: @project-version@
 ## SavedVariables: SchweinDKPDB, SchweinDKPIconDB
 
 # Libraries
