@@ -12,6 +12,9 @@ Locale[lang] = L
 local L = LibStub("AceLocale-3.0"):NewLocale(Name, lang, lang == Locale.FALLBACK)
 if not L then return end
 
+L["ENABLED"] = "Enabled"
+L["DISABLED"] = "Disabled"
+
 -- Options
 L["OPT_ENABLE"] = "Enable"
 L["OPT_ENABLE_DESC"] = "Enable or disable this addon"
@@ -25,3 +28,8 @@ L["OPT_ECHO_INFO"] = "Info"
 L["OPT_ECHO_NONE"] = "None"
 L["OPT_ECHO_VERBOSE"] = "Verbose"
 L["OPT_ECHO_DEBUG"] = "Debug"
+
+L["OPT_MESSAGES"] = "Messages"
+
+L["TIP_MINIMAP_ICON"] = "|cffffff78Left-Click:|r Toggle roster window"
+

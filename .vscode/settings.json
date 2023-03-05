@@ -52,7 +52,8 @@
         "SettingsPanel",
         "AnimateTexCoords",
         "CLASS_ICON_TCOORDS",
-        "message"
+        "message",
+        "OPTIONS"
     ],
     "Lua.runtime.version": "Lua 5.1"
 }

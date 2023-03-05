@@ -5,7 +5,7 @@ local Addon = select(2, ...)
 local L = LibStub("AceLocale-3.0"):GetLocale(Name)
 local AceGUI = LibStub("AceGUI-3.0")
 
-local GUI, Util = Addon.GUI, Addon.Util
+local GUI, Util, Options = Addon.GUI, Addon.Util, Addon.Options
 
 local Self = GUI.Roster
 
@@ -26,6 +26,9 @@ function Self.Show()
     if Self.frames.window then
         Self.frames.window.frame:Show()
     else
+        Addon:Debug("GUI.Roster.Show")
+        local f
+
         local window = GUI("Window")
             .SetLayout(nil)
             .SetFrameStrata("MEDIUM")
@@ -55,6 +58,29 @@ function Self.Show()
         end
 
         Self.frames.window = window
+
+        -- BUTTONS
+
+        -- Options button
+        f = GUI("Icon")
+            .SetImage("Interface\\Buttons\\UI-OptionsButton")
+            .SetImageSize(14, 14).SetHeight(16).SetWidth(16)
+            .SetCallback("OnClick", function (self)
+                Options.Show()
+                GameTooltip:Hide()
+            end)
+            .SetCallback("OnEnter", GUI.TooltipText)
+            .SetCallback("OnLeave", GUI.TooltipHide)
+            .SetUserData("text", OPTIONS)
+            .AddTo(window)()
+        f.OnRelease = GUI.ResetIcon
+        f.image:SetPoint("TOP", 0, -1)
+        f.frame:SetParent(window.frame)
+        f.frame:SetPoint("TOPRIGHT", window.closebutton, "TOPLEFT", -8, -8)
+        f.frame:SetFrameStrata("HIGH")
+        f.frame:Show()
+
+        Self.buttons.options = f
 
         Self.Update()
     end

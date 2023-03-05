@@ -24,6 +24,24 @@ tex:SetTexture("Interface\\Buttons\\UI-Listbox-Highlight")
 tex:SetVertexColor(1, 1, 1, .5)
 tex:SetAllPoints(Self.HIGHLIGHT)
 
+-- Reset an icon widget so it can be released
+---@param self Icon
+function Self.ResetIcon(self)
+    self.frame:SetFrameStrata("MEDIUM")
+    self.frame:RegisterForClicks("LeftButtonUp")
+    self.image:SetPoint("TOP", 0, -5)
+    self.OnRelease = nil
+end
+
+-- Reset a label widget so it can be released
+---@param self Label
+function Self.ResetLabel(self)
+    self.label:SetPoint("TOPLEFT")
+    self.frame:SetFrameStrata("MEDIUM")
+    self.frame:SetScript("OnUpdate", nil)
+    self.OnRelease = nil
+end
+
 ---@return FrameWidget
 function Self.ShowExportWindow(title, text)
     local f = Self("Frame").SetLayout("Fill").SetTitle(Name .. " - " .. title).Show()()

@@ -14,18 +14,23 @@ local LDBIcon = LibStub("LibDBIcon-1.0")
 
 local GUI, Locale, Util = Addon.GUI, Addon.Locale, Addon.Util
 
+---@class Options
 local Self = Addon.Options
 
 Self.DEFAULTS = {
     profile = {
-        enabled = true
+        enabled = true,
+        messages = {
+            echo = Addon.ECHO_INFO
+        }
     },
-    messages = {
-        echo = Addon.ECHO_INFO
-    }
 }
 
 Self.WIDTH_HALF = 1.7
+
+-- Custom options
+Self.CAT_GENERAL = "GENERAL"
+Self.CAT_MESSAGES = "MESSAGES"
 
 Self.it = Util.Iter()
 Self.registered = false
@@ -43,6 +48,26 @@ function Self.Register()
 
     C:RegisterOptionsTable(Name .. " Profiles", LibStub("AceDBOptions-3.0"):GetOptionsTable(Addon.db))
     Self.frames.Profiles = CD:AddToBlizOptions(Name .. " Profiles", "Profiles", Name)
+end
+
+-- Show the options panel
+function Self.Show(name)
+    local panel = Self.frames[name or "General"]
+
+    -- Have to call it twice because of a blizzard UI bug
+    InterfaceOptionsFrame_OpenToCategory(panel)
+    InterfaceOptionsFrame_OpenToCategory(panel)
+end
+
+-- Apply custom options to an options table
+function Self.ApplyCustomOptions(cat, options)
+    for _,entry in Self.CustomOptions:Iter() do
+        if entry.cat == cat then
+            local data = Util.Fn.Val(entry.options, cat, entry.path)
+            data.order = data.order or Self.it()
+            Util.Tbl.Set(options, entry.path, data)
+        end
+    end
 end
 
 function Self.RegisterGeneral()
@@ -67,6 +92,8 @@ function Self.RegisterGeneral()
             }
         }
     }
+
+    Self.ApplyCustomOptions(Self.CAT_GENERAL, options.args)
 
     return options
 end
@@ -97,5 +124,38 @@ function Self.RegisterMessages()
         }
     }
 
+    Self.ApplyCustomOptions(Self.CAT_MESSAGES, options.args)
+
     return options
+end
+
+-------------------------------------------------------
+--                   Minimap Icon                    --
+-------------------------------------------------------
+
+function Self.RegisterMinimapIcon()
+    local plugin = LDB:NewDataObject(Name, {
+        type = "data source",
+        text = Name,
+        icon = "Interface\\Buttons\\UI-GroupLoot-Dice-Up"
+    })
+
+    -- OnClick
+    plugin.OnClick = function (_, btn)
+        if btn == "RightButton" then
+            Self.Show()
+        else
+            GUI.Roster.Toggle()
+        end
+    end
+
+    -- OnTooltip
+    plugin.OnTooltipShow = function (ToolTip)
+        ToolTip:AddLine(Name)
+        ToolTip:AddLine(L["TIP_MINIMAP_ICON"], 1, 1, 1)
+    end
+
+    -- Icon
+    if not SchweinDKPIconDB then SchweinDKPIconDB = {} end
+    LDBIcon:Register(Name, plugin, SchweinDKPIconDB)
 end
