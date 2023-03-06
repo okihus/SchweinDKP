@@ -32,6 +32,16 @@ Self.WIDTH_HALF = 1.7
 Self.CAT_GENERAL = "GENERAL"
 Self.CAT_MESSAGES = "MESSAGES"
 
+-- Add custom options for the given key
+---@param key string                Unique indentifier
+---@param cat string                The options category that should be extended
+---@param path string               Dot-separated path inside the options data, ending with a new namespace for these custom options
+---@param options table|function    Options data, either a table or a callback with parameters: cat, path
+---@param sync function(data, isImport, cat, path)  Callback handling import/export operations
+Self.CustomOptions = Util.Registrar.New("OPTION", nil, function (key, cat, path, options, sync)
+    return Util.Tbl.Hash("key", key, "cat", cat, "path", path, "options", options, "sync", sync)
+end)
+
 Self.it = Util.Iter()
 Self.registered = false
 Self.frames = {}

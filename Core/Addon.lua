@@ -41,6 +41,7 @@ function Self:OnInitialize()
     self:SetEnabledState(self.db.profile.enabled)
 
     Options.Register()
+    Options.RegisterMinimapIcon()
 
     self:RegisterChatCommand(Name, "HandleChatCommand")
     self:RegisterChatCommand("sdkp", "HandleChatCommand")

@@ -2,4 +2,5 @@
 ..\FrameXML\UI.xsd">
     <Script file="Util.lua"/>
     <Script file="Locale.lua"/>
+    <Script file="Registrar.lua"/>
 </Ui>
